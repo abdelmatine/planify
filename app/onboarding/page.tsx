@@ -15,7 +15,7 @@ import { onboardingSchema } from "@/app/lib/zodSchemas";
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
 import { OnBoardingAction } from "../actions";
-import { useForm } from '@conform-to/react'
+import { useForm } from "@conform-to/react";
 import { SubmitButton } from "../components/SubmitButtons";
 
 export default function OnboardingRoute() {
@@ -38,7 +38,9 @@ export default function OnboardingRoute() {
     <div className="min-h-screen w-screen flex items-center justify-center">
       <Card>
         <CardHeader>
-          <CardTitle>Welcome to Plan<span className="text-primary">Ify</span></CardTitle>
+          <CardTitle>
+            Welcome to Plan<span className="text-primary">Ify</span>
+          </CardTitle>
           <CardDescription>
             We need the following information to set up your profile!
           </CardDescription>
@@ -52,7 +54,7 @@ export default function OnboardingRoute() {
                 name={fields.fullName.name}
                 defaultValue={fields.fullName.initialValue}
                 key={fields.fullName.key}
-                placeholder="Abd Jlil"
+                placeholder="John Wick"
               />
               <p className="text-sm text-red-500">{fields.fullName.errors}</p>
             </div>
@@ -71,11 +73,10 @@ export default function OnboardingRoute() {
                 />
               </div>
               <p className="text-sm text-red-500">{fields.userName.errors}</p>
-
             </div>
           </CardContent>
           <CardFooter className="w-full">
-            <SubmitButton text="Submit" className="w-full"/>
+            <SubmitButton text="Submit" className="w-full" />
           </CardFooter>
         </form>
       </Card>
