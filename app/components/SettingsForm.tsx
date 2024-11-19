@@ -14,9 +14,11 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { useFormState } from "react-dom";
+import { toast } from "sonner";
 import { SettingsAction } from "../actions";
+import { UploadDropzone } from "../lib/uploadthing";
 import { settingsSchema } from "../lib/zodSchemas";
 import { SubmitButton } from "./SubmitButtons";
 
@@ -27,7 +29,7 @@ interface iAppProps {
 }
 
 export function SettingsForm({ email, fullName, profileImage }: iAppProps) {
-  const [lastResult, action] = useFormState(SettingsAction, undefined);
+  const [lastResult, action] = useActionState(SettingsAction, undefined);
   const [currentProfileImage, setCurrentProfileImage] = useState(profileImage);
   const [form, fields] = useForm({
     lastResult,
@@ -73,6 +75,12 @@ export function SettingsForm({ email, fullName, profileImage }: iAppProps) {
           </div>
           <div className="grid gap-y-5">
             <Label>Profile Image</Label>
+            <input
+              type="hidden"
+              name={fields.profileImage.name}
+              key={fields.profileImage.key}
+              value={currentProfileImage}
+            />
             {currentProfileImage ? (
               <div className="relative size-24">
                 <img
@@ -92,8 +100,19 @@ export function SettingsForm({ email, fullName, profileImage }: iAppProps) {
                 </Button>
               </div>
             ) : (
-              <h1>Keine Image</h1>
+              <UploadDropzone
+                onClientUploadComplete={(res) => {
+                  setCurrentProfileImage(res[0].url);
+                  toast.success("Profile Image has been uploaded");
+                }}
+                onUploadError={(error) => {
+                  console.log("something went wrong", error);
+                  toast.error(error.message);
+                }}
+                endpoint="imageUploader"
+              />
             )}
+            <p className="text-red-500 text-sm">{fields.profileImage.errors}</p>
           </div>
         </CardContent>
         <CardFooter>
