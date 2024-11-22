@@ -20,7 +20,7 @@ export function CalendarCell({
   currentMonth: CalendarDate;
   isUnavailable?: boolean;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef(null);
   const { cellProps, buttonProps, isSelected, isDisabled, formattedDate } =
     useCalendarCell({ date }, state, ref);
 

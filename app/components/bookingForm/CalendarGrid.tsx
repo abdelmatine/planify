@@ -18,8 +18,8 @@ import {
   }) {
     const startDate = state.visibleRange.start.add(offset);
     const endDate = endOfMonth(startDate);
-    const { locale } = useLocale();
-    const { gridProps, headerProps, weekDays } = useCalendarGrid(
+    let { locale } = useLocale();
+    let { gridProps, headerProps, weekDays } = useCalendarGrid(
       {
         startDate,
         endDate,

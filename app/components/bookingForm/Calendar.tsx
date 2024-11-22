@@ -1,3 +1,5 @@
+"use client";
+
 import { createCalendar } from "@internationalized/date";
 import { CalendarProps, DateValue, useCalendar, useLocale } from "react-aria";
 import { useCalendarState } from "react-stately";
