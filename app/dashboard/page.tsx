@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { ExternalLink, Link2, Pen, Settings, Trash, Users2 } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import { CopyLinkMenuItem } from "../components/CopyLinkMenu";
 import { EmptyState } from "../components/EmptyState";
 import { auth } from "../lib/auth";
 import prisma from "../lib/db";
@@ -61,10 +62,10 @@ export default async function DashboardPage() {
           <div className="flex items-center justify-between px-2">
             <div className="hidden sm:grid gap-y-1">
               <h1 className="text-3xl md:text-4xl font-semibold">
-                Event Types
+                Events
               </h1>
               <p className="text-muted-foreground">
-                Create and manage your event types right here.
+                Create and manage your events right here.
               </p>
             </div>
             <Button asChild>
@@ -94,12 +95,11 @@ export default async function DashboardPage() {
                             Preview
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Link2 className="mr-2 size-4"/>
-                          Copy
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
+                          <CopyLinkMenuItem meetingUrl={`${process.env.NEXT_PUBLIC_URL}/${data.userName}/${item.url}`} />
+                        <DropdownMenuItem asChild>
+                          <Link href={`/dashboard/event/${item.id}`}>
                           <Pen className="size-4 mr-2"/>
+                          </Link>
                           Edit
                         </DropdownMenuItem>
                       </DropdownMenuGroup>

@@ -1,10 +1,6 @@
 "use client";
 
-import { CreateEventTypeAction } from "@/app/actions";
-import { SubmitButton } from "@/app/components/SubmitButtons";
-import { eventTypeSchema } from "@/app/lib/zodSchemas";
 import { Button } from "@/components/ui/button";
-import { ButtonGroup } from "@/components/ui/ButtonGroup";
 import {
   Card,
   CardContent,
@@ -15,6 +11,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import Link from "next/link";
+import { useForm } from "@conform-to/react";
+import { parseWithZod } from "@conform-to/zod";
+import { eventTypeSchema } from "@/app/lib/zodSchemas";
 import {
   Select,
   SelectContent,
@@ -24,35 +25,46 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { useForm } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
-import Link from "next/link";
-import React, { useActionState, useState } from "react";
+import { ButtonGroup } from "@/components/ui/ButtonGroup";
+import { useActionState, useState } from "react";
+import { SubmitButton } from "./SubmitButtons";
+import { CreateEventTypeAction } from "../actions";
+
+interface iAppProps {
+  id: string;
+  title: string;
+  url: string;
+  description: string;
+  duration: number;
+  callProvider: string;
+}
 
 type Platform = "Zoom Meeting" | "Google Meet" | "Microsoft Teams";
 
-export default function NewEventRoute() {
-  const [lastResult, action] = useActionState(CreateEventTypeAction, undefined);
-  const [form, fields] = useForm({
-    // Sync the result of last submission
-    lastResult,
 
-    // Reuse the validation logic on the client
-    onValidate({ formData }) {
-      return parseWithZod(formData, { schema: eventTypeSchema });
-    },
+export function EditEventForm({id, title, url, description, duration, callProvider}: iAppProps) {
 
-    // Validate the form on blur event triggered
-    shouldValidate: "onBlur",
-    shouldRevalidate: "onInput",
-  });
-  const [activePlatform, setActivePlatform] = useState<Platform>("Google Meet");
+    const [lastResult, action] = useActionState(CreateEventTypeAction, undefined);
+    const [form, fields] = useForm({
+      // Sync the result of last submission
+      lastResult,
+  
+      // Reuse the validation logic on the client
+      onValidate({ formData }) {
+        return parseWithZod(formData, { schema: eventTypeSchema });
+      },
+  
+      // Validate the form on blur event triggered
+      shouldValidate: "onBlur",
+      shouldRevalidate: "onInput",
+    });
+    const [activePlatform, setActivePlatform] = useState<Platform>("Google Meet");
+  
+    const togglePlatform = (platform: Platform) => {
+      setActivePlatform(platform);
+    };
 
-  const togglePlatform = (platform: Platform) => {
-    setActivePlatform(platform);
-  };
-  return (
+    return(
     <div className="h-full w-full flex-1 flex flex-col items-center justify-center">
       <Card>
         <CardHeader>
