@@ -2,6 +2,7 @@
 /* import { RenderCalendar } from "@/app/components/demo/RenderCalendar";
 import { SubmitButton } from "@/app/components/SubmitButton";
 import { TimeSlots } from "@/app/components/TimeSlots"; */
+import { CreateMeetingAction } from "@/app/actions";
 import { RenderCalendar } from "@/app/components/bookingForm/RenderCalendar";
 import { TimeTable } from "@/app/components/bookingForm/TimeTable";
 import { SubmitButton } from "@/app/components/SubmitButtons";
@@ -77,7 +78,7 @@ export default async function BookingPage({
   return (
     <div className="min-h-screen w-screen flex items-center justify-center">
       {showForm ? (
-        <Card className="max-w-[600px]">
+        <Card className="max-w-[600px] w-full m-2">
           <CardContent className="p-5 grid md:grid-cols-[1fr,auto,1fr] gap-4">
             <div>
               <Image
@@ -123,10 +124,8 @@ export default async function BookingPage({
 
             <form
               className="flex flex-col gap-y-4"
-              //action={createMeetingAction}
+              action={CreateMeetingAction}
             >
-              <input type="hidden" name="dataId" value={data.id} />
-              <input type="hidden" name="username" value={params.username} />
               <input type="hidden" name="fromTime" value={searchParams.time} />
               <input type="hidden" name="eventDate" value={searchParams.date} />
               <input
@@ -134,17 +133,20 @@ export default async function BookingPage({
                 name="meetingLength"
                 value={data.duration}
               />
-              <div className="flex flex-col gap-y-1">
+              <input type="hidden" name="provider" value={data.videoCallSoftware} />
+              <input type="hidden" name="username" value={params.username} />
+              <input type="hidden" name="eventTypeId" value={data.id} />
+              <div className="flex flex-col gap-y-2">
                 <Label>Your Name</Label>
                 <Input name="name" placeholder="Your Name" />
               </div>
 
-              <div className="flex flex-col gap-y-1">
+              <div className="flex flex-col gap-y-2">
                 <Label>Your Email</Label>
-                <Input name="email" placeholder="johndoe@gmail.com" />
+                <Input name="email" placeholder="johnwick@gmail.com" />
               </div>
 
-              <SubmitButton text="Book Meeting" />
+              <SubmitButton className="w-full mt-5" text="Book Meeting" />
             </form>
           </CardContent>
         </Card>

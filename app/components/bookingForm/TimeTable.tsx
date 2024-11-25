@@ -144,4 +144,4 @@ export async function TimeTable({ selectedDate, userName, duration }: iAppProps)
       </div>
     </div>
   );
-}
+};
