@@ -24,7 +24,7 @@ interface navigationProps {
 export const dashboardLinks: navigationProps[] = [
   {
     id: 0,
-    name: "Event Types",
+    name: "Event Manager",
     href: "/dashboard",
     icon: HomeIcon,
   },

@@ -28,7 +28,7 @@ import {
 import { ButtonGroup } from "@/components/ui/ButtonGroup";
 import { useActionState, useState } from "react";
 import { SubmitButton } from "./SubmitButtons";
-import { CreateEventTypeAction } from "../actions";
+import { EditEventTypeAction } from "../actions";
 
 interface iAppProps {
   id: string;
@@ -39,48 +39,55 @@ interface iAppProps {
   callProvider: string;
 }
 
-type Platform = "Zoom Meeting" | "Google Meet" | "Microsoft Teams";
+type VideoCallProvider = "Zoom Meeting" | "Google Meet" | "Microsoft Teams";
 
+export function EditEventForm({
+  id,
+  title,
+  url,
+  description,
+  duration,
+  callProvider,
+}: iAppProps) {
+  const [lastResult, action] = useActionState(EditEventTypeAction, undefined);
+  const [form, fields] = useForm({
+    // Sync the result of last submission
+    lastResult,
 
-export function EditEventForm({id, title, url, description, duration, callProvider}: iAppProps) {
+    // Reuse the validation logic on the client
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: eventTypeSchema });
+    },
 
-    const [lastResult, action] = useActionState(CreateEventTypeAction, undefined);
-    const [form, fields] = useForm({
-      // Sync the result of last submission
-      lastResult,
-  
-      // Reuse the validation logic on the client
-      onValidate({ formData }) {
-        return parseWithZod(formData, { schema: eventTypeSchema });
-      },
-  
-      // Validate the form on blur event triggered
-      shouldValidate: "onBlur",
-      shouldRevalidate: "onInput",
-    });
-    const [activePlatform, setActivePlatform] = useState<Platform>("Google Meet");
-  
-    const togglePlatform = (platform: Platform) => {
-      setActivePlatform(platform);
-    };
+    // Validate the form on blur event triggered
+    shouldValidate: "onBlur",
+    shouldRevalidate: "onInput",
+  });
+  const [activePlatform, setActivePlatform] =
+    useState<VideoCallProvider>(callProvider as VideoCallProvider);
 
-    return(
+  const togglePlatform = (platform: VideoCallProvider) => {
+    setActivePlatform(platform);
+  };
+
+  return (
     <div className="h-full w-full flex-1 flex flex-col items-center justify-center">
       <Card>
         <CardHeader>
-          <CardTitle>Add new appointment</CardTitle>
+          <CardTitle>Edit appointment</CardTitle>
           <CardDescription>
-            Create a new appointment type that allows people to book times.
+            Edit appointment type that allows people to book times.
           </CardDescription>
         </CardHeader>
         <form noValidate id={form.id} onSubmit={form.onSubmit} action={action}>
+          <input type="hidden" name="id" value={id}/>
           <CardContent className="grid gap-y-5">
             <div className="flex flex-col gap-y-2">
               <Label>Title</Label>
               <Input
                 name={fields.title.name}
                 key={fields.title.key}
-                defaultValue={fields.title.initialValue}
+                defaultValue={title}
                 placeholder="30 min meeting"
               />
               <p className="text-red-500 text-sm">{fields.title.errors}</p>
@@ -90,12 +97,12 @@ export function EditEventForm({id, title, url, description, duration, callProvid
               <Label>URL Slug</Label>
               <div className="flex rounded-md">
                 <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-muted bg-muted text-muted-foreground text-sm">
-                  CalMarshal.com/
+                  PlanIfy.com/
                 </span>
                 <Input
                   type="text"
                   key={fields.url.key}
-                  defaultValue={fields.url.initialValue}
+                  defaultValue={url}
                   name={fields.url.name}
                   placeholder="example-user-1"
                   className="rounded-l-none"
@@ -110,7 +117,7 @@ export function EditEventForm({id, title, url, description, duration, callProvid
               <Textarea
                 name={fields.description.name}
                 key={fields.description.key}
-                defaultValue={fields.description.initialValue}
+                defaultValue={description}
                 placeholder="30 min meeting"
               />
               <p className="text-red-500 text-sm">
@@ -123,7 +130,7 @@ export function EditEventForm({id, title, url, description, duration, callProvid
               <Select
                 name={fields.duration.name}
                 key={fields.duration.key}
-                defaultValue={fields.duration.initialValue}
+                defaultValue={String(duration)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select the duration" />
@@ -189,7 +196,7 @@ export function EditEventForm({id, title, url, description, duration, callProvid
             <Button asChild variant="secondary">
               <Link href="/dashboard">Cancel</Link>
             </Button>
-            <SubmitButton text="Create Event Type" />
+            <SubmitButton text="Edit appointment" />
           </CardFooter>
         </form>
       </Card>

@@ -14,6 +14,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { CopyLinkMenuItem } from "../components/CopyLinkMenu";
 import { EmptyState } from "../components/EmptyState";
+import { MenuActiveSwitch } from "../components/EventTypeSwitcher";
 import { auth } from "../lib/auth";
 import prisma from "../lib/db";
 import { requireUser } from "../lib/hooks";
@@ -92,15 +93,15 @@ export default async function DashboardPage() {
                         <DropdownMenuItem asChild>
                           <Link href={`/${data.userName}/${item.url}`}>
                             <ExternalLink className="mr-2 size-4" />
-                            Preview
+                            <span>Preview</span>
                           </Link>
                         </DropdownMenuItem>
                           <CopyLinkMenuItem meetingUrl={`${process.env.NEXT_PUBLIC_URL}/${data.userName}/${item.url}`} />
                         <DropdownMenuItem asChild>
                           <Link href={`/dashboard/event/${item.id}`}>
                           <Pen className="size-4 mr-2"/>
+                          <span>Edit</span>
                           </Link>
-                          Edit
                         </DropdownMenuItem>
                       </DropdownMenuGroup>
                       <DropdownMenuSeparator />
@@ -125,8 +126,12 @@ export default async function DashboardPage() {
                   </div>
                 </Link>
                 <div className="bg-muted px-5 py-3 justify-between items-center flex">
-                  <Switch />
-                  <Button>Edit Event</Button>
+                  <MenuActiveSwitch initialChecked={item.active} eventTypeId={item.id} />
+                  <Button asChild>
+                    <Link href={`/dashboard/event/${item.id}`}>
+                    Edit Event
+                    </Link>
+                  </Button>
                 </div>
               </div>
             ))}
