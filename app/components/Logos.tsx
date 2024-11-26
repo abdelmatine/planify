@@ -14,7 +14,8 @@ export function Logos() {
         <Image src={NylasLogo} alt="Logo" className="col-span-2 max-h-12 w-full object-contain lg:col-span-1 dark:invert"/>
         <Image src={NextJsLogo} alt="Logo" className="col-span-2 max-h-12 w-full object-contain lg:col-span-1 dark:invert"/>
         <Image src={VercelLogo} alt="Logo" className="col-span-2 max-h-12 w-full object-contain lg:col-span-1 dark:invert"/>
-
+        <Image src={NylasLogo} alt="Logo" className="col-span-2 max-h-12 w-full object-contain lg:col-span-1 dark:invert"/>
+        <Image src={NextJsLogo} alt="Logo" className="col-span-2 max-h-12 w-full object-contain lg:col-span-1 dark:invert"/>
       </div>
     </div>
   );

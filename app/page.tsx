@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { Features } from "./components/Features";
 import { Hero } from "./components/Hero";
 import { Logos } from "./components/Logos";
 import { Navbar } from "./components/Navbar";
@@ -14,6 +15,7 @@ export default async function Home() {
       <Navbar />
       <Hero />
       <Logos />
+      <Features />
     </div>
   );
 }
