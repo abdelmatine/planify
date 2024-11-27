@@ -1,8 +1,10 @@
+import { Cta } from "@/components/ui/Cta";
 import { redirect } from "next/navigation";
 import { Features } from "./components/Features";
 import { Hero } from "./components/Hero";
 import { Logos } from "./components/Logos";
 import { Navbar } from "./components/Navbar";
+import { Testimonial } from "./components/Testimonial";
 import { auth } from "./lib/auth";
 
 export default async function Home() {
@@ -16,6 +18,8 @@ export default async function Home() {
       <Hero />
       <Logos />
       <Features />
+      <Testimonial />
+      <Cta />
     </div>
   );
 }

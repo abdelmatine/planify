@@ -3,11 +3,10 @@
 import prisma from "./lib/db";
 import { requireUser } from "./lib/hooks";
 import {parseWithZod} from '@conform-to/zod'
-import { eventTypeSchema, onboardingSchema, onboardingSchemaValidation, settingsSchema } from "@/app/lib/zodSchemas";
+import { eventTypeSchema, onboardingSchemaValidation, settingsSchema } from "@/app/lib/zodSchemas";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { nylas } from "./lib/nylas";
-import { Prisma } from "@prisma/client";
 
 export async function OnBoardingAction(prevState: any, formData: FormData) {
     const session = await requireUser();
