@@ -78,6 +78,7 @@ function calculateAvailableTimeSlots(
     new Date()
   );
 
+  //@ts-ignore
   const busySlots = nylasData.data[0].timeSlots.map((slot) => ({
     start: fromUnixTime(slot.startTime),
     end: fromUnixTime(slot.endTime),
@@ -107,21 +108,25 @@ function calculateAvailableTimeSlots(
   return freeSlots.map((slot) => format(slot, "HH:mm"));
 }
 
-export async function TimeTable({ selectedDate, userName, duration }: iAppProps) {
+export async function TimeTable({
+  selectedDate,
+  userName,
+  duration,
+}: iAppProps) {
   const { data, nylasCalendarData } = await getData(userName, selectedDate);
-  
+
   const formattedDate = format(selectedDate, "yyyy-MM-dd");
   const dbAvailability = {
     fromTime: data?.fromTime,
     tillTime: data?.tillTime,
-  }
+  };
   const availableSlots = calculateAvailableTimeSlots(
     formattedDate,
     dbAvailability,
     nylasCalendarData,
     duration
-  )
-  
+  );
+
   return (
     <div>
       <p className="text-base font-semibold">
@@ -133,15 +138,20 @@ export async function TimeTable({ selectedDate, userName, duration }: iAppProps)
 
       <div className="mt-3 max-h-[350px] overflow-y-auto">
         {availableSlots.length > 0 ? (
-            availableSlots.map((slot, index) => (
-                <Link href={`?date=${format(selectedDate, "yyyy-MM-dd")}&time=${slot}`} key={index}>
-                <Button className="w-full mb-2" variant="outline">{slot}</Button>
-                </Link>
-            ))
+          availableSlots.map((slot, index) => (
+            <Link
+              href={`?date=${format(selectedDate, "yyyy-MM-dd")}&time=${slot}`}
+              key={index}
+            >
+              <Button className="w-full mb-2" variant="outline">
+                {slot}
+              </Button>
+            </Link>
+          ))
         ) : (
-            <p>No available time slots</p>
+          <p>No available time slots</p>
         )}
       </div>
     </div>
   );
-};
+}

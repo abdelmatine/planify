@@ -15,7 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { auth, signOut } from "../lib/auth";
+import { signOut } from "../lib/auth";
 import { requireUser } from "../lib/hooks";
 import prisma from "../lib/db";
 import { redirect } from "next/navigation";
@@ -41,7 +41,6 @@ async function getData(userId: string) {
   }
 
   return data;
-   
 }
 
 export default async function DashboardLayout({
@@ -112,7 +111,7 @@ export default async function DashboardLayout({
                     size="icon"
                     className="rounded-full"
                   >
-                    <img
+                    <Image
                       className="w-full h-full rounded-full"
                       src={session?.user?.image as string}
                       alt="Profile Image"
@@ -147,7 +146,7 @@ export default async function DashboardLayout({
           </main>
         </div>
       </div>
-      <Toaster richColors closeButton/>
+      <Toaster richColors closeButton />
     </>
   );
 }

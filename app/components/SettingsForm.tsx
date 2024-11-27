@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { X } from "lucide-react";
+import Image from "next/image";
 import { useActionState, useState } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "sonner";
@@ -50,7 +51,7 @@ export function SettingsForm({ email, fullName, profileImage }: iAppProps) {
     <Card>
       <CardHeader>
         <CardTitle>Settings</CardTitle>
-        <CardDescription>Manage your account's seetings</CardDescription>
+        <CardDescription>Manage your account&apos;s seetings</CardDescription>
       </CardHeader>
 
       <form id={form.id} onSubmit={form.onSubmit} action={action} noValidate>
@@ -83,7 +84,7 @@ export function SettingsForm({ email, fullName, profileImage }: iAppProps) {
             />
             {currentProfileImage ? (
               <div className="relative size-24">
-                <img
+                <Image
                   src={currentProfileImage}
                   alt="Profile Image"
                   className="size-24 rounded-lg"
